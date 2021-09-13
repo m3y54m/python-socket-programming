@@ -6,8 +6,8 @@ import threading
 # The port that we want to bind to our server
 PORT = 5050
 # IP address of your computer
-# SERVER = "127.0.0.1"
-SERVER = socket.gethostbyname(socket.gethostname())
+# SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = "127.0.0.1"
 ADDR = (SERVER, PORT)
 
 # Specification of my own custom protocol
@@ -30,14 +30,21 @@ def handle_client(conn, addr):
     while isConnected:
         # First receive the size of incoming message
         msgLength = conn.recv(HEADER_SIZE).decode(FORMAT)
-        msgLength = int(msgLength)
-        # No receive the main message according to the size received before
-        msg = conn.recv(msgLength).decode(FORMAT)
+        
+        # if msgLength != empty string
+        if msgLength != "":
+            msgLength = int(msgLength)
+            print(f"[MESSAGE LENGTH] {msgLength}")
+            # No receive the main message according to the size received before
+            msg = conn.recv(msgLength).decode(FORMAT)
 
-        if msg == DISCONNECT_MSG:
-            isConnected = False
+            if msg == DISCONNECT_MSG:
+                isConnected = False
 
-        print(f"[{addr}] {msg}")
+            print(f"[{addr}] {msg}")
+
+        else:
+            break
 
     # Close the client's socket connection
     conn.close()
@@ -45,6 +52,7 @@ def handle_client(conn, addr):
 
 def start():
     # Enable the server to accept connections
+    # Note: TCP is a connection-oriented protocol
     server.listen()
     print(f"[LISTENING] server is listening on {SERVER}")
 
