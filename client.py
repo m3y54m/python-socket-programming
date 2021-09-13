@@ -20,3 +20,16 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Connect to a remote socket at address
 # Note: TCP is a connection-oriented protocol
 client.connect(ADDR)
+
+def send(msg):
+    message = msg.encode(FORMAT)
+    msgLength = len(message)
+    msgHeader = str(msgLength).encode(FORMAT)
+    # Pad spaces to the msgHeader in order to fill the HEADER
+    msgHeader += b' ' * (HEADER_SIZE - len(msgHeader))
+    # Send the msgHeader
+    client.send(msgHeader)
+    # Send the main message
+    client.send(message)
+
+send("Hello World!")
