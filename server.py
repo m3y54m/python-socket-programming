@@ -30,7 +30,7 @@ def handle_client(conn, addr):
     while isConnected:
         # First receive the size of incoming message
         msgLength = conn.recv(HEADER_SIZE).decode(FORMAT)
-        
+
         # if msgLength != empty string
         if msgLength != "":
             msgLength = int(msgLength)
@@ -42,9 +42,6 @@ def handle_client(conn, addr):
                 isConnected = False
 
             print(f"[{addr}] {msg}")
-
-        else:
-            break
 
     # Close the client's socket connection
     conn.close()

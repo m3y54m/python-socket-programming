@@ -31,5 +31,7 @@ def send(msg):
     client.send(msgHeader)
     # Send the main message
     client.send(message)
+    
 
 send("Hello World!")
+send(DISCONNECT_MSG)
